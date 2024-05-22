@@ -1,0 +1,52 @@
+stretch_mobile_base_controller:
+  ros__parameters:
+    use_stamped_vel: False
+    left_wheel: [joint_left_wheel]
+    right_wheel: [joint_right_wheel]
+
+    wheel_separation: 0.315
+    wheel_radius: 0.05
+
+    wheel_separation_multiplier: 1.0
+    left_wheel_radius_multiplier: 1.0
+    right_wheel_radius_multiplier: 1.0
+
+    # Odometry covariances for the encoder output of the robot. These values should
+    # be tuned to your robot's sample odometry data, but these values are a good place
+    # to start
+    publish_rate: 50.0
+    pose_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.03]
+    twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.03]
+
+    enable_pose_covariance_update: true
+    error_constant_left : 0.001
+    error_constant_right: 0.001
+
+    # Velocity commands timeout [s]
+    cmd_vel_timeout: 0.25
+
+    # Top level frame (link) of the robot description
+    base_frame_id: base_link
+
+    # Preserve turning radius when limiting speed/acceleration/jerk
+    preserve_turning_radius: true
+
+    # Publish limited velocity
+    publish_cmd: true
+
+    # Publish wheel data
+    publish_wheel_data: true
+
+    # Velocity and acceleration limits for the robot
+    linear:
+      x:
+        has_velocity_limits    : true
+        max_velocity           : 0.5   # m/s
+        has_acceleration_limits: true
+        max_acceleration       : 1.0   # m/s^2
+    angular:
+      z:
+        has_velocity_limits    : true
+        max_velocity           : 2.0   # rad/s
+        has_acceleration_limits: true
+        max_acceleration       : 6.0   # rad/s^2
