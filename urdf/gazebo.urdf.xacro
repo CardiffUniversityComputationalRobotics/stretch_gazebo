@@ -35,30 +35,6 @@
     <mu2>0.0</mu2>
   </gazebo>
 
-  <gazebo reference="link_aruco_right_base">
-      <material>Gazebo/Black</material>
-  </gazebo>
-
-  <gazebo reference="link_aruco_left_base">
-      <material>Gazebo/Black</material>
-  </gazebo>
-
-  <gazebo reference="link_aruco_shoulder">
-      <material>Gazebo/Black</material>
-  </gazebo>
-
-  <gazebo reference="link_aruco_top_wrist">
-      <material>Gazebo/Black</material>
-  </gazebo>
-
-  <gazebo reference="link_aruco_inner_wrist">
-      <material>Gazebo/Black</material>
-  </gazebo>
-
-  <gazebo reference="respeaker_base">
-      <material>Gazebo/Green</material>
-  </gazebo>
-
   <gazebo reference="link_lift">
       <mu1 value="10000.0"/>
       <mu2 value="10000.0"/>
@@ -162,14 +138,8 @@
         <param name="max">0.5</param>
       </command_interface>
       <state_interface name="position" />
+      <state_interface name="velocity" />
     </joint>
-    <transmission name="right_wheel_trans" type="SimpleTransmission">
-        <plugin>transmission_interface/SimpleTransmission</plugin>
-        <actuator name="right_wheel_motor" role="actuator1"/>
-        <joint name="joint_right_wheel" role="joint1">
-            <mechanicalReduction>1</mechanicalReduction>
-        </joint>
-    </transmission>
 
     <joint name="joint_left_wheel">
         <command_interface name="velocity">
@@ -177,14 +147,8 @@
           <param name="max">0.5</param>
         </command_interface>
         <state_interface name="position" />
+        <state_interface name="velocity" />
     </joint>
-    <transmission name="left_wheel_trans" type="SimpleTransmission">
-        <plugin>transmission_interface/SimpleTransmission</plugin>
-        <actuator name="left_wheel_motor" role="actuator1"/>
-        <joint name="joint_left_wheel" role="joint1">
-            <mechanicalReduction>1</mechanicalReduction>
-        </joint>
-    </transmission>
 
     <joint name="joint_lift">
       <command_interface name="position" />
@@ -194,14 +158,6 @@
       <state_interface name="velocity" />
       <state_interface name="effort" />
     </joint>
-    <transmission name="trans_lift">
-        <plugin>transmission_interface/SimpleTransmission</plugin>
-        <actuator name="motor_lift" role="actuator1"/>
-        <joint name="joint_lift" role="joint1">
-            <mechanical_reduction>1.0</mechanical_reduction>
-            <offset>0.0</offset>
-        </joint>
-    </transmission>
 
     <joint name="joint_arm_l0">
       <command_interface name="position" />
@@ -211,14 +167,6 @@
       <state_interface name="velocity" />
       <state_interface name="effort" />
     </joint>
-    <transmission name="trans_arm_l0">
-        <plugin>transmission_interface/SimpleTransmission</plugin>
-        <actuator name="motor_arm_l0" role="actuator1"/>
-        <joint name="joint_arm_l0" role="joint1">
-            <mechanical_reduction>1.0</mechanical_reduction>
-            <offset>0.0</offset>
-        </joint>
-    </transmission>
 
     <joint name="joint_arm_l1">
       <command_interface name="position" />
@@ -228,14 +176,6 @@
       <state_interface name="velocity" />
       <state_interface name="effort" />
     </joint>
-    <transmission name="trans_arm_l1">
-        <plugin>transmission_interface/SimpleTransmission</plugin>
-        <actuator name="motor_arm_l1" role="actuator1"/>
-        <joint name="joint_arm_l1" role="joint1">
-            <mechanical_reduction>1.0</mechanical_reduction>
-            <offset>0.0</offset>
-        </joint>
-    </transmission>
 
     <joint name="joint_arm_l2">
       <command_interface name="position" />
@@ -245,14 +185,6 @@
       <state_interface name="velocity" />
       <state_interface name="effort" />
     </joint>
-    <transmission name="trans_arm_l2">
-      <plugin>transmission_interface/SimpleTransmission</plugin>
-      <actuator name="motor_arm_l2" role="actuator1"/>
-      <joint name="joint_arm_l2" role="joint1">
-          <mechanical_reduction>1.0</mechanical_reduction>
-          <offset>0.0</offset>
-      </joint>
-    </transmission>
 
     <joint name="joint_arm_l3">
       <command_interface name="position" />
@@ -262,14 +194,6 @@
       <state_interface name="velocity" />
       <state_interface name="effort" />
     </joint>
-    <transmission name="trans_arm_l3">
-      <plugin>transmission_interface/SimpleTransmission</plugin>
-      <actuator name="motor_arm_l3" role="actuator1"/>
-      <joint name="joint_arm_l3" role="joint1">
-          <mechanical_reduction>1.0</mechanical_reduction>
-          <offset>0.0</offset>
-      </joint>
-    </transmission>
 
     <joint name="joint_wrist_yaw">
       <command_interface name="position" />
@@ -279,14 +203,6 @@
       <state_interface name="velocity" />
       <state_interface name="effort" />
     </joint>
-    <transmission name="trans_wrist_yaw">
-      <plugin>transmission_interface/SimpleTransmission</plugin>
-      <actuator name="motor_wrist_yaw" role="actuator1"/>
-      <joint name="joint_wrist_yaw" role="joint1">
-          <mechanical_reduction>1.0</mechanical_reduction>
-          <offset>0.0</offset>
-      </joint>
-    </transmission>
 
     <joint name="joint_head_pan">
       <command_interface name="position" />
@@ -296,14 +212,6 @@
       <state_interface name="velocity" />
       <state_interface name="effort" />
     </joint>
-    <transmission name="trans_head_pan">
-      <plugin>transmission_interface/SimpleTransmission</plugin>
-      <actuator name="motor_head_pan" role="actuator1"/>
-      <joint name="joint_head_pan" role="joint1">
-          <mechanical_reduction>1.0</mechanical_reduction>
-          <offset>0.0</offset>
-      </joint>
-    </transmission>
 
     <joint name="joint_head_tilt">
       <command_interface name="position" />
@@ -313,14 +221,6 @@
       <state_interface name="velocity" />
       <state_interface name="effort" />
     </joint>
-    <transmission name="trans_head_tilt">
-      <plugin>transmission_interface/SimpleTransmission</plugin>
-      <actuator name="motor_head_tilt" role="actuator1"/>
-      <joint name="joint_head_tilt" role="joint1">
-          <mechanical_reduction>1.0</mechanical_reduction>
-          <offset>0.0</offset>
-      </joint>
-    </transmission>
   </ros2_control>
 
   <gazebo>
