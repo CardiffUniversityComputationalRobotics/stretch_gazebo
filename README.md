@@ -3,6 +3,7 @@ This package allows migrates the stretch_gazebo package found in (https://github
 
 > [NOTE]: This is not functional. Current status of development allows to launch everything properly within the simulation including controllers however when moved everything breaks. Additionally, for simplicifation of the problem all sensors, gripper, aruco markers and respeakers have been removed.
 
+> [UPDATE]: New branch has been created called `dev` for debugging purposes. Current status of the branch has a reduced urdf containing only the mobile base in which by modifiying the inertias and the mass it kinda works.  
 # Install Package
 To have functional the following simulation first install the create a catkin workspace and install all dependecies mentioned below.
 
