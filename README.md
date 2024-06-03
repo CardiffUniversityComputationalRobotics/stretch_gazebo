@@ -1,13 +1,7 @@
-# Stretch Gazebo
-This package allows migrates the stretch_gazebo package found in (https://github.com/hello-robot/stretch_ros.git) to ROS2.
-
-> [NOTE]: This is not functional. Current status of development allows to launch everything properly within the simulation including controllers however when moved everything breaks. Additionally, for simplicifation of the problem all sensors, gripper, aruco markers and respeakers have been removed.
-
-> [UPDATE]: New branch has been created called `dev` for debugging purposes. Current status of the branch has a reduced urdf containing only the mobile base in which by modifiying the inertias and the mass it kinda works.  
-# Install Package
+# Install
 To have functional the following simulation first install the create a catkin workspace and install all dependecies mentioned below.
 
-## APT Dependecies
+## apt dependecies
 Dependecies you can install from terminal
 ```
 sudo apt-get install ros-humble-launch-param-builder
@@ -24,14 +18,14 @@ sudo apt-get install ros-humble-joint-state-broadcaster
 sudo apt-get install ros-humble-diff-drive-controller
 sudo apt-get install ros-humble-joint-trajectory-controller
 ```
-## Dependecies from Source
+## dependecies from source
 Dependecies which should be in the `src` folder of your catkin workspace.
 ```
 git clone git@github.com:ros-controls/ros2_control.git
 git clone git@github.com:ros-controls/gazebo_ros2_control.git
 ```
 
-# Start Simulation
+# Before running add the following to your 
 After you have built your catkin workspace make sure to add the following lines to the `bashrc` file.
 ```
 source /usr/share/gazebo/setup.sh
@@ -43,3 +37,5 @@ Then, source your bashrc and your catkin workspace. Once you have followed all p
 ```
 ros2 run stretch_gazebo stretch_gazebo.launch.py
 ```
+
+[NOTE]: This is not functional. Current status of development allows to launch everything properly within the simulation including controllers however when moved everything breaks. Additionally, for simplicifation of the problem all sensors, gripper, aruco markers and respeakers have been removed.

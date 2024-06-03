@@ -61,7 +61,7 @@ def generate_launch_description():
     robot_state_publisher = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory('stretch_gazebo'),
-                         'launch/robot_state_publisher.launch.py')
+                         'launch/robot_state_publisher_base.launch.py')
         )
     )
 
@@ -71,7 +71,7 @@ def generate_launch_description():
     stretch_controller = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory('stretch_gazebo'),
-                         'launch/controllers.launch.py')
+                         'launch/controllers_base.launch.py')
         )
     )
 
