@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="stretch_base">
   <xacro:property name="M_PI" value="3.1415926535897931" />
-  <xacro:property name="joint_damping" value="21.75"/>
-  <xacro:property name="joint_friction" value="10.48"/>
+  <xacro:property name="joint_damping" value="0"/>
+  <xacro:property name="joint_friction" value="0"/>
   <xacro:property name="joint_spring_stiffness" value="0"/>
   <xacro:property name="joint_spring_reference" value="0"/>
 
@@ -21,12 +21,12 @@
         rpy="0 0 0" />
       <mass value="${mass}" />
       <inertia
-        ixx="5.4E-05"
+        ixx="0.01"
         ixy="0"
         ixz="0"
-        iyy="5.4E-05"
+        iyy="0.01"
         iyz="0"
-        izz="5.4E-05" />
+        izz="0.01" />
     </inertial>
   </xacro:macro>
 
@@ -88,7 +88,7 @@
           filename="package://stretch_gazebo/meshes/link_right_wheel.STL" />
       </geometry>
     </collision>
-    <xacro:default_inertial mass="0.5" pos="1.1719E-11 2.0783E-11 0.037544"/>
+    <xacro:default_inertial mass="0.0042721" pos="1.1719E-11 2.0783E-11 0.037544"/>
   </link>
 
   <joint
@@ -103,7 +103,7 @@
       link="link_right_wheel" />
     <axis
       xyz="0 0 1" />
-    <!-- <dynamics damping="${joint_damping}" friction="${joint_friction}" spring_reference="${joint_spring_reference}" spring_stiffness="${joint_spring_stiffness}"/> -->
+    <dynamics damping="${joint_damping}" friction="${joint_friction}" spring_reference="${joint_spring_reference}" spring_stiffness="${joint_spring_stiffness}"/>
   </joint>
 
   <link
@@ -127,7 +127,7 @@
           filename="package://stretch_gazebo/meshes/link_left_wheel.STL" />
       </geometry>
     </collision>
-    <xacro:default_inertial mass="0.5" pos="-2.0783E-11 -1.1719E-11 -0.037544"/>
+    <xacro:default_inertial mass="0.0042721" pos="-2.0783E-11 -1.1719E-11 -0.037544"/>
   </link>
 
   <joint
@@ -142,7 +142,7 @@
       link="link_left_wheel" />
     <axis
       xyz="0 0 1" />
-    <!-- <dynamics damping="${joint_damping}" friction="${joint_friction}" spring_reference="${joint_spring_reference}" spring_stiffness="${joint_spring_stiffness}"/> -->
+    <dynamics damping="${joint_damping}" friction="${joint_friction}" spring_reference="${joint_spring_reference}" spring_stiffness="${joint_spring_stiffness}"/>
   </joint>
 
   <link name="caster_link">
