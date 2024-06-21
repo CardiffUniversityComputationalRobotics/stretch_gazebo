@@ -4,11 +4,34 @@
   <xacro:arg name="visualize_lidar" default="false" />
 
   <xacro:include filename="$(find stretch_gazebo)/urdf/stretch_base.xacro" />
+  <xacro:include filename="$(find stretch_gazebo)/urdf/stretch_d435i.xacro" />
+  <xacro:include filename="$(find stretch_gazebo)/urdf/stretch_laser_range_finder.xacro" />
+  <xacro:include filename="$(find stretch_gazebo)/urdf/stretch_respeaker.xacro" />
 
   <gazebo reference="base_link">
       <material>Gazebo/Gray</material>
   </gazebo>
 
+  <!-- Base IMU sensor -->
+  <gazebo reference="base_link">
+    <gravity>true</gravity>
+    <sensor name="base_imu" type="imu">
+      <always_on>true</always_on>
+      <visualize>false</visualize>
+      <update_rate>50</update_rate>
+      <plugin name="base_imu_plugin" filename="libgazebo_ros_imu_sensor.so">
+        <ros>
+          <namespace>/imu</namespace>
+          <remapping>~/out:=data</remapping>
+        </ros>
+        <frame_name>base_link</frame_name>
+        <initial_orientation_as_reference>false</initial_orientation_as_reference>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <!-- Drive -->
   <gazebo reference="link_right_wheel">
       <mu1 value="100.0"/>
       <mu2 value="200.0"/>
@@ -35,10 +58,92 @@
     <mu2>0.0</mu2>
   </gazebo>
 
+  <!-- Respeaker -->
+  <gazebo reference="respeaker_base">
+      <material>Gazebo/Green</material>
+  </gazebo>
+
+  <!-- Non GPU LIDAR -->
+  <xacro:unless value="$(arg gpu_lidar)">
+    <gazebo reference="laser">
+      <material>Gazebo/Black</material>
+      <sensor type="ray" name="laser_sensor">
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>2000</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.9</min_angle>
+              <max_angle>5.0</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.15</min>
+            <max>12.0</max>
+            <resolution>0.01</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.001</stddev>
+          </noise>
+        </ray>
+        <update_rate>30</update_rate>
+        <plugin name="gazebo_ros_lidar_controller" filename="libgazebo_ros_ray_sensor.so">
+          <ros>
+            <namespace>/scan</namespace>
+            <remapping>~/out:=data</remapping>
+          </ros>
+          <output_type>sensor_msgs/LaserScan</output_type>
+          <frame_name>laser</frame_name>
+        </plugin>
+      </sensor>
+    </gazebo>
+  </xacro:unless>
+
+  <!-- GPU LIDAR -->
+  <xacro:if value="$(arg gpu_lidar)">
+    <gazebo reference="laser">
+      <material>Gazebo/Black</material>
+      <sensor type="gpu_ray" name="laser_sensor">
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>2000</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.9</min_angle>
+              <max_angle>5.0</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.15</min>
+            <max>12.0</max>
+            <resolution>0.01</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.001</stddev>
+          </noise>
+        </ray>
+        <update_rate>5.5</update_rate>
+        <plugin name="gazebo_ros_lidar_controller" filename="libgazebo_ros_ray_sensor.so">
+          <ros>
+            <namespace>/scan</namespace>
+            <remapping>~/out:=data</remapping>
+          </ros>
+          <output_type>sensor_msgs/LaserScan</output_type>
+          <frame_name>laser</frame_name>
+        </plugin>
+      </sensor>
+    </gazebo>
+  </xacro:if>
+
   <gazebo reference="link_mast">
       <material>Gazebo/Gray</material>
   </gazebo>
 
+  <!-- Head -->
   <gazebo reference="link_head">
       <mu1 value="100.0"/>
       <mu2 value="200.0"/>
@@ -61,6 +166,151 @@
       <kd value="100.0" />
       <material>Gazebo/Gray</material>
       <minDepth>0.001</minDepth>
+  </gazebo>
+
+  <!-- Camera IMU sensor -->
+  <gazebo reference="camera_gyro_frame">
+    <gravity>true</gravity>
+    <sensor name="camera_imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <visualize>false</visualize>
+      <update_rate>50</update_rate>
+      <plugin name="camera_imu_plugin" filename="libgazebo_ros_imu_sensor.so">
+        <ros>
+          <namespace>/camera</namespace>
+          <remapping>~/out:=imu/data</remapping>
+        </ros>
+        <frame_name>camera_gyro_frame</frame_name>
+        <initial_orientation_as_reference>false</initial_orientation_as_reference>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <!-- Realsense D435i -->
+  <gazebo reference="camera_color_frame">
+    <sensor name="color" type="camera">
+      <pose frame="">0 0 0 0 0 0</pose>
+      <camera name="__default__">
+        <horizontal_fov>1.5009831567151233</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>RGB_INT8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>100</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <always_on>1</always_on>
+      <update_rate>30</update_rate>
+      <visualize>0</visualize>
+    </sensor>
+  </gazebo>
+  <gazebo reference="camera_infra1_frame">
+    <sensor name="ired1" type="camera">
+      <pose frame="">0 0 0 0 0 0</pose>
+      <camera name="__default__">
+        <horizontal_fov>1.5009831567151233</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>L_INT8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>100</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <always_on>1</always_on>
+      <update_rate>30</update_rate>
+      <visualize>0</visualize>
+    </sensor>
+  </gazebo>
+  <gazebo reference="camera_infra2_frame">
+    <sensor name="ired2" type="camera">
+      <pose frame="">0 0 0 0 0 0</pose>
+      <camera name="__default__">
+        <horizontal_fov>1.5009831567151233</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>L_INT8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>100</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <always_on>1</always_on>
+      <update_rate>30</update_rate>
+      <visualize>0</visualize>
+    </sensor>
+  </gazebo>
+  <gazebo reference="camera_depth_frame">
+    <sensor name="depth" type="depth">
+      <pose frame="">0 0 0 0 0 0</pose>
+      <camera name="__default__">
+        <horizontal_fov>1.5009831567151233</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>100</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <always_on>1</always_on>
+      <update_rate>30</update_rate>
+      <visualize>0</visualize>
+    </sensor>
+  </gazebo>
+  <gazebo>
+      <plugin name="camera" filename="librealsense_gazebo_plugin.so">
+        <depthUpdateRate>30</depthUpdateRate>
+        <colorUpdateRate>30</colorUpdateRate>
+        <infraredUpdateRate>30</infraredUpdateRate>
+        <depthTopicName>depth/image_raw</depthTopicName>
+        <depthCameraInfoTopicName>depth/camera_info</depthCameraInfoTopicName>
+        <colorTopicName>color/image_raw</colorTopicName>
+        <colorCameraInfoTopicName>color/camera_info</colorCameraInfoTopicName>
+        <infrared1TopicName>infrared/image_raw</infrared1TopicName>
+        <infrared1CameraInfoTopicName>infrared/camera_info</infrared1CameraInfoTopicName>
+        <infrared2TopicName>infrared2/image_raw</infrared2TopicName>
+        <infrared2CameraInfoTopicName>infrared2/camera_info</infrared2CameraInfoTopicName>
+        <colorOpticalframeName>camera_color_optical_frame</colorOpticalframeName>
+        <depthOpticalframeName>camera_depth_optical_frame</depthOpticalframeName>
+        <infrared1OpticalframeName>camera_left_ir_optical_frame</infrared1OpticalframeName>
+        <infrared2OpticalframeName>camera_right_ir_optical_frame</infrared2OpticalframeName>
+        <rangeMinDepth>0.1</rangeMinDepth>
+        <rangeMaxDepth>10</rangeMaxDepth>
+        <pointCloud>1</pointCloud>
+        <pointCloudTopicName>depth/color/points</pointCloudTopicName>
+        <pointCloudCutoff>0.15</pointCloudCutoff>
+        <pointCloudCutoffMax>10</pointCloudCutoffMax>
+      </plugin>
   </gazebo>
 
   <!-- <gazebo reference="link_lift">
