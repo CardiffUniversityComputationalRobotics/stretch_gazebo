@@ -9,7 +9,7 @@ def generate_launch_description():
     ld = LaunchDescription()
 
     pkg_share_folder = get_package_share_directory("stretch_gazebo")
-    config_file_path = os.path.join(pkg_share_folder, 'config', 'stretch.yaml')
+    config_file_path = os.path.join(pkg_share_folder, 'config', 'base.yaml')
 
     # Controller manager
     controller_manager = Node(
@@ -22,7 +22,7 @@ def generate_launch_description():
 
     # Timer delays to ensure the controller manager is up before spawning controllers
     joint_state_broadcaster = TimerAction(
-        period=2.0,
+        period=1.0,
         actions=[GroupAction(
             [
                 generate_load_controller_launch_description(
@@ -36,7 +36,7 @@ def generate_launch_description():
     ld.add_action(joint_state_broadcaster)
 
     base_controller = TimerAction(
-        period=4.0,
+        period=1.0,
         actions=[GroupAction(
             [
                 generate_load_controller_launch_description(
@@ -48,5 +48,33 @@ def generate_launch_description():
         )]
     )
     ld.add_action(base_controller)
+
+    head_controller = TimerAction(
+        period=1.0,
+        actions=[GroupAction(
+            [
+                generate_load_controller_launch_description(
+                    controller_name="stretch_head_controller",
+                    controller_type="joint_trajectory_controller/JointTrajectoryController",
+                    controller_params_file=config_file_path,
+                )
+            ]
+        )]
+    )
+    ld.add_action(head_controller)
+
+    # arm_controller = TimerAction(
+    #     period=1.0,
+    #     actions=[GroupAction(
+    #         [
+    #             generate_load_controller_launch_description(
+    #                 controller_name="stretch_arm_controller",
+    #                 controller_type="joint_trajectory_controller/JointTrajectoryController",
+    #                 controller_params_file=config_file_path,
+    #             )
+    #         ]
+    #     )]
+    # )
+    # ld.add_action(arm_controller)
 
     return ld

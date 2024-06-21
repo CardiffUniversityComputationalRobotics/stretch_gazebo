@@ -8,6 +8,12 @@ controller_manager:
 
     stretch_mobile_base_controller:
       type: diff_drive_controller/DiffDriveController
+    
+    stretch_arm_controller:
+      type: "joint_trajectory_controller/JointTrajectoryController"
+    
+    stretch_head_controller:
+      type: "joint_trajectory_controller/JointTrajectoryController"
 
 stretch_mobile_base_controller:
   ros__parameters:
@@ -47,3 +53,55 @@ stretch_mobile_base_controller:
         has_acceleration_limits: true
         max_acceleration: 6.0          # rad/s^2
         min_acceleration: -1.0
+
+stretch_head_controller:
+  ros__parameters:
+    joints:
+      - joint_head_pan
+      - joint_head_tilt
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+    constraints:
+      goal_time: 0.6
+      stopped_velocity_tolerance: 0.05
+      joint_head_pan: {trajectory: 0.1, goal: 0.1}
+      joint_head_tilt: {trajectory: 0.1, goal: 0.1}
+      stop_trajectory_duration: 0.5
+
+stretch_arm_controller:
+  ros__parameters:
+    joints:
+      - joint_lift
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+
+    constraints:
+      goal_time: 0.6
+      stopped_velocity_tolerance: 0.05
+      stop_trajectory_duration: 0.5
+      joint_lift:
+        goal: 0.1
+        trajectory: 0.1
+
+# stretch_arm_controller:
+#   ros__parameters:
+#       joints:
+#         - joint_lift
+#       command_interfaces:
+#         - position
+#       state_interfaces:
+#         - position
+
+#       state_publish_rate: 200.0 # Defaults to 50
+#       action_monitor_rate: 20.0 # Defaults to 20
+
+#       allow_partial_joints_goal: false # Defaults to false
+#       open_loop_control: true
+#       allow_integration_in_goal_trajectories: true
+#       constraints:
+#         stopped_velocity_tolerance: 0.05 # Defaults to 0.01
+#         goal_time: 0.6 # Defaults to 0.0 (start immediately)
