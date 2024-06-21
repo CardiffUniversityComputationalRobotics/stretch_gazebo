@@ -1,9 +1,9 @@
 # Stretch Gazebo
-This package allows migrates the stretch_gazebo package found in (https://github.com/hello-robot/stretch_ros.git) to ROS2.
+This package allows migrates the stretch_gazebo package found in (https://github.com/hello-robot/stretch_ros.git) to ROS2. All xacro and urdf files have been obtained from the 'stretch_ros' package and modified. This package has been created for simplification of the meta-package `stretch_ros2`, once the code is functional it will be incorporated to the meta-package found in (https://github.com/hello-robot/stretch_ros2.git)
 
-> [NOTE]: This is not functional. Current status of development allows to launch everything properly within the simulation including controllers however when moved everything breaks. Additionally, for simplicifation of the problem all sensors, gripper, aruco markers and respeakers have been removed.
+> [NOTE]: The robot is partially functional excluding the arm and gripper. The current urdf incorporates the mobile base, head, speakers and sensors.
 
-> [UPDATE]: New branch has been created called `dev` for debugging purposes. Current status of the branch has a reduced urdf containing only the mobile base in which by modifiying the inertias and the mass it kinda works.  
+> [UPDATE]: New branch has been created called `dev` for debugging purposes. Currently the migration of the arm and gripper is under development.
 # Install Package
 To have functional the following simulation first install the create a catkin workspace and install all dependecies mentioned below.
 
@@ -27,8 +27,9 @@ sudo apt-get install ros-humble-joint-trajectory-controller
 ## Dependecies from Source
 Dependecies which should be in the `src` folder of your catkin workspace.
 ```
-git clone git@github.com:ros-controls/ros2_control.git
-git clone git@github.com:ros-controls/gazebo_ros2_control.git
+git clone -b humble git@github.com:ros-controls/ros2_control.git
+git clone -b humble git@github.com:ros-controls/gazebo_ros2_control.git
+git clone -b foxy-devel git@github.com:pal-robotics/realsense_gazebo_plugin.git
 ```
 
 # Start Simulation

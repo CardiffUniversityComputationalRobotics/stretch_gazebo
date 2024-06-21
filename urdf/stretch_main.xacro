@@ -1,10 +1,38 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="stretch_main">
   <xacro:property name="M_PI" value="3.1415926535897931" />
-  <xacro:property name="joint_damping" value="21.75"/>
-  <xacro:property name="joint_friction" value="10.48"/>
+  <xacro:property name="joint_damping" value="0"/>
+  <xacro:property name="joint_friction" value="0"/>
   <xacro:property name="joint_spring_stiffness" value="0"/>
   <xacro:property name="joint_spring_reference" value="0"/>
+
+  <material name="blue">
+    <color rgba="0 0 0.8 1"/>
+  </material>
+
+  <material name="white">
+    <color rgba="1 1 1 1"/>
+  </material>
+
+  <material name="black">
+    <color rgba="0.0 0.0 0.0 1.0"/>
+  </material>
+
+  <xacro:macro name="default_inertial" params="mass pos">
+    <inertial>
+      <origin
+        xyz="${pos}"
+        rpy="0 0 0" />
+      <mass value="${mass}" />
+      <inertia
+        ixx="0.01"
+        ixy="0"
+        ixz="0"
+        iyy="0.01"
+        iyz="0"
+        izz="0.01" />
+    </inertial>
+  </xacro:macro>
 
   <link
     name="base_link">
@@ -16,10 +44,10 @@
         value="1.1912" />
       <inertia
         ixx="0.0034667"
-        ixy="-5.0568E-06"
-        ixz="0.00042861"
+        ixy="0"
+        ixz="0"
         iyy="0.0052744"
-        iyz="-5.766E-05"
+        iyz="0"
         izz="0.0047945" />
     </inertial>
     <visual>
@@ -30,11 +58,7 @@
         <mesh
           filename="package://stretch_gazebo/meshes/base_link.STL" />
       </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.79216 0.81961 0.93333 1" />
-      </material>
+       <material name="white"/>
     </visual>
     <collision>
       <origin
@@ -49,20 +73,6 @@
 
   <link
     name="link_right_wheel">
-    <inertial>
-      <origin
-        xyz="1.1719E-11 2.0783E-11 0.037544"
-        rpy="0 0 0" />
-      <mass
-        value="0.0042721" />
-      <inertia
-        ixx="0.001"
-        ixy="0"
-        ixz="0"
-        iyy="0.001"
-        iyz="0"
-        izz="0.001" />
-    </inertial>
     <visual>
       <origin
         xyz="0 0 0"
@@ -71,11 +81,7 @@
         <mesh
           filename="package://stretch_gazebo/meshes/link_right_wheel.STL" />
       </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.79216 0.81961 0.93333 1" />
-      </material>
+      <material name="blue"/>
     </visual>
     <collision>
       <origin
@@ -86,6 +92,7 @@
           filename="package://stretch_gazebo/meshes/link_right_wheel.STL" />
       </geometry>
     </collision>
+    <xacro:default_inertial mass="0.0042721" pos="1.1719E-11 2.0783E-11 0.037544"/>
   </link>
 
   <joint
@@ -105,20 +112,6 @@
 
   <link
     name="link_left_wheel">
-    <inertial>
-      <origin
-        xyz="-2.0783E-11 -1.1719E-11 -0.037544"
-        rpy="0 0 0" />
-      <mass
-        value="0.0042721" />
-      <inertia
-        ixx="0.001"
-        ixy="0"
-        ixz="0"
-        iyy="0.001"
-        iyz="0"
-        izz="0.001" />
-    </inertial>
     <visual>
       <origin
         xyz="0 0 0"
@@ -127,11 +120,7 @@
         <mesh
           filename="package://stretch_gazebo/meshes/link_left_wheel.STL" />
       </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.79216 0.81961 0.93333 1" />
-      </material>
+      <material name="blue"/>
     </visual>
     <collision>
       <origin
@@ -142,6 +131,7 @@
           filename="package://stretch_gazebo/meshes/link_left_wheel.STL" />
       </geometry>
     </collision>
+    <xacro:default_inertial mass="0.0042721" pos="-2.0783E-11 -1.1719E-11 -0.037544"/>
   </link>
 
   <joint
@@ -190,17 +180,7 @@
           rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
       </material>
     </visual>
-    <inertial>
-      <mass value="0.01" />
-      <origin xyz="0 0 0" />
-      <inertia
-        ixx="0.001"
-        ixy="0"
-        ixz="0"
-        iyy="0.001"
-        iyz="0"
-        izz="0.001" />
-    </inertial>
+    <xacro:default_inertial mass="0.01" pos="0 0 0"/>
   </link>
 
   <joint name="caster_joint" type="fixed">
@@ -217,7 +197,7 @@
         xyz="2.0817E-17 0.7075 -2.7756E-17"
         rpy="0 0 0" />
       <mass
-        value="1.8285" />
+        value="0.18285" />
       <inertia
         ixx="0.0709854511954588"
         ixy="-0.00433428742758457"
@@ -234,11 +214,7 @@
         <mesh
           filename="package://stretch_gazebo/meshes/link_mast.STL" />
       </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.79216 0.81961 0.93333 1" />
-      </material>
+      <material name="white"/>
     </visual>
     <collision>
       <origin
@@ -263,398 +239,6 @@
       link="link_mast" />
     <axis
       xyz="0 0 0" />
-  </joint>
-
-  <link
-    name="link_lift">
-    <inertial>
-      <origin
-        xyz="-0.031727 0.038403 0.013361"
-        rpy="0 0 0" />
-      <mass
-        value="0.27218" />
-      <inertia
-        ixx="0.00052571"
-        ixy="0.00014899"
-        ixz="-1.9258E-05"
-        iyy="0.00030679"
-        iyz="-6.2451E-06"
-        izz="0.00037324" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://stretch_gazebo/meshes/link_lift.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.79216 0.81961 0.93333 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://stretch_gazebo/meshes/link_lift.STL" />
-      </geometry>
-    </collision>
-  </link>
-
-  <joint
-    name="joint_lift"
-    type="prismatic">
-    <origin
-      xyz="-0.037385 0.1666 0"
-      rpy="-1.5708 1.5708 0" />
-    <parent
-      link="link_mast" />
-    <child
-      link="link_lift" />
-    <axis
-      xyz="0 0 1" />
-  <limit effort="100" lower="0.0" upper="1.1" velocity="1.0"/>
-  </joint>
-
-  <link
-    name="link_arm_l4">
-    <inertial>
-      <origin
-        xyz="-1.0146E-06 -1.9719E-05 -0.094738"
-        rpy="0 0 0" />
-      <mass
-        value="0.068095" />
-      <inertia
-        ixx="0.0001256"
-        ixy="-5.6914E-12"
-        ixz="6.0647E-09"
-        iyy="0.0001256"
-        iyz="1.1787E-07"
-        izz="1.1091E-10" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://stretch_gazebo/meshes/link_arm_l4.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.79216 0.81961 0.93333 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://stretch_gazebo/meshes/link_arm_l4.STL" />
-      </geometry>
-    </collision>
-  </link>
-
-  <joint
-    name="joint_arm_l4"
-    type="fixed">
-    <origin
-      xyz="-0.2547 0 0"
-      rpy="1.5708 2.4721E-15 -1.5708" />
-    <parent
-      link="link_lift" />
-    <child
-      link="link_arm_l4" />
-    <axis
-      xyz="0 0 0" />
-  </joint>
-
-  <link
-    name="link_arm_l3">
-    <inertial>
-      <origin
-        xyz="-5.13853606326845E-07 -1.99844969271112E-05 -0.0971104963726614"
-        rpy="0 0 0" />
-      <mass
-        value="0.0628927381893134" />
-      <inertia
-        ixx="0.001"
-        ixy="0"
-        ixz="0"
-        iyy="0.001"
-        iyz="0"
-        izz="0.001" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://stretch_gazebo/meshes/link_arm_l3.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://stretch_gazebo/meshes/link_arm_l3.STL" />
-      </geometry>
-    </collision>
-  </link>
-
-  <joint
-    name="joint_arm_l3"
-    type="prismatic">
-    <origin
-      xyz="0 0 0.013"
-      rpy="7.68831233799385E-30 2.36716479416092E-30 2.29652732251143E-17" />
-    <parent
-      link="link_arm_l4" />
-    <child
-      link="link_arm_l3" />
-    <axis
-      xyz="0 0 1" />
-    <!-- 0.13 = 0.52/4-->
-    <limit effort="100" lower="0.0" upper="0.13" velocity="1.0"/>
-  </joint>
-
-  <link
-    name="link_arm_l2">
-    <inertial>
-      <origin
-        xyz="-5.17421949435687E-07 -2.02045301450349E-05 -0.0968815475684904"
-        rpy="0 0 0" />
-      <mass
-        value="0.0571386353275368" />
-      <inertia
-        ixx="0.001"
-        ixy="0"
-        ixz="0"
-        iyy="0.001"
-        iyz="0"
-        izz="0.001" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://stretch_gazebo/meshes/link_arm_l2.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://stretch_gazebo/meshes/link_arm_l2.STL" />
-      </geometry>
-    </collision>
-  </link>
-
-  <joint
-    name="joint_arm_l2"
-    type="prismatic">
-    <origin
-      xyz="0 0 0.013"
-      rpy="0 1.57655765344625E-30 -1.66533453693773E-16" />
-    <parent
-      link="link_arm_l3" />
-    <child
-      link="link_arm_l2" />
-    <axis
-      xyz="0 0 1" />
-    <limit effort="100" lower="0.0" upper="0.13" velocity="1.0"/>
-  </joint>
-
-  <link
-    name="link_arm_l1">
-    <inertial>
-      <origin
-        xyz="-5.257E-07 -2.0482E-05 -0.096543"
-        rpy="0 0 0" />
-      <mass
-        value="0.051382" />
-      <inertia
-        ixx="0.001"
-        ixy="0"
-        ixz="0"
-        iyy="0.001"
-        iyz="0"
-        izz="0.001" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://stretch_gazebo/meshes/link_arm_l1.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.79216 0.81961 0.93333 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://stretch_gazebo/meshes/link_arm_l1.STL" />
-      </geometry>
-    </collision>
-  </link>
-
-  <joint
-    name="joint_arm_l1"
-    type="prismatic">
-    <origin
-      xyz="0 0 0.0129999999999981"
-      rpy="-7.63746778746202E-30 -7.88860905221012E-31 1.11022302462516E-16" />
-    <parent
-      link="link_arm_l2" />
-    <child
-      link="link_arm_l1" />
-    <axis
-      xyz="0 0 1" />
-    <limit effort="100" lower="0.0" upper="0.13" velocity="1.0"/>
-  </joint>
-
-  <link
-    name="link_arm_l0">
-    <inertial>
-      <origin
-        xyz="0.0270582141286185 -0.00189876414654466 -0.0377809018481181"
-        rpy="0 0 0" />
-      <mass
-        value="0.085003260946398" />
-      <inertia
-        ixx="0.001"
-        ixy="0"
-        ixz="0"
-        iyy="0.001"
-        iyz="0"
-        izz="0.001" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://stretch_gazebo/meshes/link_arm_l0.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://stretch_gazebo/meshes/link_arm_l0.STL" />
-      </geometry>
-    </collision>
-  </link>
-
-  <joint
-    name="joint_arm_l0"
-    type="prismatic">
-    <origin
-      xyz="0 0 -0.0137499999991968"
-      rpy="7.63746778746202E-30 -3.80121128864402E-15 2.62707547767438E-15" />
-    <parent
-      link="link_arm_l1" />
-    <child
-      link="link_arm_l0" />
-    <axis
-      xyz="0 0 1" />
-    <limit effort="100" lower="0.0" upper="0.13" velocity="1.0"/>
-  </joint>
-
-  <link
-    name="link_wrist_yaw">
-    <inertial>
-      <origin
-        xyz="2.20122392535771E-11 2.9317167880849E-05 -0.018966592644729"
-        rpy="0 0 0" />
-      <mass
-        value="0.0404746907425003" />
-      <inertia
-        ixx="0.001"
-        ixy="0"
-        ixz="0"
-        iyy="0.001"
-        iyz="0"
-        izz="0.001" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://stretch_gazebo/meshes/link_wrist_yaw.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://stretch_gazebo/meshes/link_wrist_yaw.STL" />
-      </geometry>
-    </collision>
-  </link>
-
-  <joint
-    name="joint_wrist_yaw"
-    type="revolute">
-    <origin
-      xyz="0.0830000000000654 -0.0307500000000129 0"
-      rpy="1.5708 4.2595E-14 2.6415E-15"/>
-    <parent
-      link="link_arm_l0" />
-    <child
-      link="link_wrist_yaw" />
-    <axis
-      xyz="0 0 -1" />
-    <limit effort="100" lower="-1.75" upper="4.0" velocity="1.0"/>
   </joint>
 
   <link
@@ -823,5 +407,4 @@
       xyz="0 0 1" />
     <limit effort="100" lower="-1.53" upper="0.79" velocity="1.0"/>
   </joint>
-
 </robot>

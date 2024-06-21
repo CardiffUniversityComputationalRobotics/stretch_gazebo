@@ -27,9 +27,6 @@ from launch.actions import OpaqueFunction, SetLaunchConfiguration
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
-from launch_param_builder import load_xacro
-
-
 
 def generate_launch_description():
 
