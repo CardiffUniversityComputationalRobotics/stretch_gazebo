@@ -348,7 +348,7 @@
 
   <gazebo>
     <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-      <parameters>$(find stretch_gazebo)/config/base.yaml</parameters>
+      <parameters>$(find stretch_gazebo)/config/stretch.yaml</parameters>
     </plugin>
   </gazebo>
 

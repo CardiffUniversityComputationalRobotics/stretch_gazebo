@@ -25,24 +25,16 @@ sudo apt-get install ros-humble-diff-drive-controller
 sudo apt-get install ros-humble-joint-trajectory-controller
 sudo apt-get install ros-humble-realsense2-description ros-humble-realsense2-description
 sudo apt-get install ros-humble-robot-state-publisher
+sudo apt-get install ros-humble-ros2-control ros-humble-gazebo-ros2-control
 ```
 ## Dependecies from Source
 Dependecies which should be in the `src` folder of your catkin workspace.
 ```
-git clone -b humble git@github.com:ros-controls/ros2_control.git
-git clone -b humble git@github.com:ros-controls/gazebo_ros2_control.git
 git clone -b foxy-devel git@github.com:pal-robotics/realsense_gazebo_plugin.git
 ```
 
 # Start Simulation
-After you have built your catkin workspace make sure to add the following lines to the `bashrc` file.
-```
-source /usr/share/gazebo/setup.sh
-source /opt/ros/humble/setup.bash
-export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/home/samuel/ros2_ws/install/stretch_gazebo/share/stretch_gazebo
-export GAZEBO_PLUGIN_PATH=$GAZEBO_PLUGIN_PATH:/opt/ros/humble/lib
-```
-Then, source your bashrc and your catkin workspace. Once you have followed all previous steps mentioned above you will be ready to launch the simulation by running the following command:
+Once you have installed all APT & Source depecencies, and built the catkin workspace you will be ready to launch the simulation by running the following command:
 ```
 ros2 run stretch_gazebo stretch_gazebo.launch.py
 ```
