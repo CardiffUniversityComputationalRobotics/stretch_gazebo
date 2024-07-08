@@ -23,6 +23,8 @@ pip install setuptools==58.2.0
 sudo apt-get install ros-humble-joint-state-broadcaster
 sudo apt-get install ros-humble-diff-drive-controller
 sudo apt-get install ros-humble-joint-trajectory-controller
+sudo apt-get install ros-humble-realsense2-description ros-humble-realsense2-description
+sudo apt-get install ros-humble-robot-state-publisher
 ```
 ## Dependecies from Source
 Dependecies which should be in the `src` folder of your catkin workspace.
